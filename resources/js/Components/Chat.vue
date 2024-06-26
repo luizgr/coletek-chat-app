@@ -48,15 +48,6 @@ const deleteGuild = (guild) => {
     }
 };
 
-const deleteMessage = (message) => {
-    if (confirm('Are you sure you want to delete this message?')) {
-        axios.delete(`/api/guilds/${chat.activeGuild.id}/channels/${chat.activeChannel.id}/messages/${message.id}`)
-            .then(() => {
-                chat.setMessages(chat.messages.filter((m) => m.id !== message.id));
-            });
-    }
-};
-
 const activeCreateChannel = ref(false);
 
 const createChannelData = ref({});
@@ -77,10 +68,14 @@ const message = ref('');
 const sendMessage = () => {
     axios.post(`/api/guilds/${chat.activeGuild.id}/channels/${chat.activeChannel.id}/messages`, {
         content: message.value,
-    })
-    .finally(() => {
-        message.value = '';
     });
+    message.value = '';
+};
+
+const deleteMessage = (message) => {
+    if (confirm('Are you sure you want to delete this message?')) {
+        axios.delete(`/api/guilds/${chat.activeGuild.id}/channels/${chat.activeChannel.id}/messages/${message.id}`);
+    }
 };
 
 watch(() => chat.activeGuild, () => {
@@ -98,8 +93,9 @@ watch(() => chat.activeChannel, (channel, old) => {
     if (channel) {
         window.Echo.channel("channel-" + channel.id).listen("GotMessage", (event) => {
             chat.setMessages([...chat.messages, event]);
+        }).listen("DeletedMessage", (event) => {
+            chat.setMessages(chat.messages.filter((m) => m.id !== event.id));
         });
-
     }
 });
 
@@ -109,7 +105,7 @@ onMounted(() => getGuilds());
 
 <template>
     <div>
-        <div class="flex h-96 max-h-full bg-white overflow-hidden shadow-xl sm:rounded-lg">
+        <div class="flex min-w-96 h-96 max-h-full bg-white overflow-hidden shadow-xl sm:rounded-lg">
             <!-- Guilds -->
             <div class="w-auto z-30 py-2 bg-slate-300 overflow-y-scroll no-scrollbar">
                 <ul>
@@ -203,11 +199,12 @@ onMounted(() => getGuilds());
                     </li>
                     <li v-if="chat.activeGuild" class="border-b border-gray-200 block p-4">
                         <a href="#" @click="() => { createChannelData = ref({}); activeCreateChannel = true }" class="block">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="float-left p-2 size-8">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
-                            <span class="text-md font-semibold text-green-700">
+                            <span class="text-md text-green-700">
+                                <span class="float-left mr-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                </span>
                                 Add Channel
                             </span>
                         </a>
@@ -235,21 +232,21 @@ onMounted(() => getGuilds());
                 <div class=" bg-gray-200 h-full overflow-y-scroll" :class="{'bg-gray-300':!chat.activeChannel}">
                     <ul class="flex flex-col w-full p-4">
                         <li v-for="message in chat.messages" class="block w-full">
-                            <div v-if="message" class="my-2 px-2 py-2 text-slate-700 rounded-lg min-w-32"
+                            <div v-if="message" class="my-2 px-2 py-2 text-slate-700 rounded-lg min-w-32 drop-shadow-lg"
                                 :class="{
                                     'float-left bg-slate-100': message.user_id != page.props.auth.user.id,
                                     'float-right bg-slate-300': message.user_id == page.props.auth.user.id,
                                 }"   
                             >
-                                <a href="#" @click="deleteMessage(message)" class="text-red-400 float-right ml-2">
+                                <a href="#" @click="deleteMessage(message)" class="text-slate-400 hover:text-slate-500 float-right ml-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                         stroke="currentColor" class="size-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                     </svg>
                                 </a>
-                                <span class="text-slate-700">{{ message.content }}</span><br />
-                                <span class="text-slate-500 text-xs">{{ message.created_at }} - {{ message.user }}</span>
+                                <span class="text-slate-700 text-sm">{{ message.content }}</span><br />
+                                <span class="text-slate-400 text-xs">{{ message.created_at }} - {{ message.user }}</span>
                             </div>
                         </li>
                     </ul>
@@ -259,7 +256,7 @@ onMounted(() => getGuilds());
                 <div class="border-t border-gray-200 block p-4 text-md text-slate-700 bg-slate-100">
                     <form action="#" @submit.prevent="sendMessage()">
                         <div class="flex">
-                            <input v-model="message" type="text" :disabled="!chat.activeChannel"
+                            <input v-model="message" type="text" :disabled="!chat.activeChannel" :class="{'bg-gray-200':!chat.activeChannel}"
                                 class="w-full p-2 border border-gray-200 rounded-lg" placeholder="Message" />
                             <button type="submit" class="bg-sky-600 text-white p-2 rounded-full ml-2" :disabled="!chat.activeChannel">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

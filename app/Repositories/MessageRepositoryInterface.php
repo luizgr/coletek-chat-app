@@ -7,6 +7,14 @@ use App\Models\Message;
 interface MessageRepositoryInterface
 {
     /**
+     * Get message by id
+     *
+     * @param int $id
+     * @return Message
+     */
+    public function getById(int $id): Message;
+
+    /**
      * Create a new message
      *
      * @param array $data

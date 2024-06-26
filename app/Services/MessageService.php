@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\DeletedMessage;
 use App\Events\GotMessage;
 use App\Jobs\SendMessage;
 use App\Repositories\MessageRepositoryInterface;
@@ -49,6 +50,10 @@ class MessageService
      */
     public function deleteMessage(int $id)
     {
-        return $this->messageRepository->delete($id);
+        $message = $this->messageRepository->getById($id);
+
+        DeletedMessage::dispatch($message->id, $message->channel_id);
+        
+        $this->messageRepository->delete($id);
     }
 }
