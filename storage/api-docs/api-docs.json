@@ -1,0 +1,347 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Chat API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/guilds/{guildId}/channels": {
+            "post": {
+                "tags": [
+                    "Channel"
+                ],
+                "summary": "",
+                "description": "Create a new channel",
+                "operationId": "01bcad3aecd72a3ec420d07737bfac93",
+                "parameters": [
+                    {
+                        "name": "guildId",
+                        "in": "path",
+                        "description": "Guild id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "general"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/guilds": {
+            "get": {
+                "tags": [
+                    "Guild"
+                ],
+                "summary": "",
+                "description": "Get all guilds",
+                "operationId": "d1b0368a081395cedc8c54642efd8f18",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Guild"
+                ],
+                "summary": "",
+                "description": "Create a new guild",
+                "operationId": "5a78cfb123ff4584566f18a90ecee2dd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Guild name",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Guild description",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/guilds/{id}": {
+            "get": {
+                "tags": [
+                    "Guild"
+                ],
+                "summary": "",
+                "description": "Get guild by id with channels",
+                "operationId": "7818a8479dfe42ebc70491f59f339f3c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Guild id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Guild"
+                ],
+                "summary": "",
+                "description": "Delete a guild",
+                "operationId": "dfd14eddbc1c03794d8e8c054205a8ba",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Guild id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/guilds/{guildId}/channels/{channelId}/messages": {
+            "post": {
+                "tags": [
+                    "Message"
+                ],
+                "summary": "",
+                "description": "Send a message to a channel",
+                "operationId": "251a0ea9085d46af67be6e1d95d38c94",
+                "parameters": [
+                    {
+                        "name": "guildId",
+                        "in": "path",
+                        "description": "Guild id",
+                        "required": true
+                    },
+                    {
+                        "name": "channelId",
+                        "in": "path",
+                        "description": "Channel id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "content"
+                                ],
+                                "properties": {
+                                    "content": {
+                                        "type": "string",
+                                        "example": "Hello world"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/guilds/{guildId}/channels/{channelId}/messages/{messageId}": {
+            "delete": {
+                "tags": [
+                    "Message"
+                ],
+                "summary": "",
+                "description": "Delete a message",
+                "operationId": "204e0ea65bbeb30775afe4ab837dc834",
+                "parameters": [
+                    {
+                        "name": "guildId",
+                        "in": "path",
+                        "description": "Guild id",
+                        "required": true
+                    },
+                    {
+                        "name": "channelId",
+                        "in": "path",
+                        "description": "Channel id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/user": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "",
+                "description": "User profile",
+                "operationId": "6adf508220eca3aef7c2420e6cdb5577",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/token": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "",
+                "description": "Login user with email and password",
+                "operationId": "b397f875ef145f3afa1a029aa9b8c9bc",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}
