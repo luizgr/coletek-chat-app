@@ -8,28 +8,35 @@ Antes de comerçarmos, certifique-se que você tenha os requisitos mínimos para
 
 ### Clonando o projeto
 
-Após definir onde o projeto será instalado, abra o terminal e execute o comando do git para clonar os arquivos e acesse o diretório raiz:
+Após definir onde o projeto será instalado, abra o terminal e execute o comando do git para clonar os arquivos e em seguida acesse o diretório raiz:
 
 ```bash
-git clone github.com/luizgr/coletek-chat-app
+git clone https://github.com/luizgr/coletek-chat-app
 cd coletek-chat-app
 ```
 
 Copie o arquivo `.env.example` e renomeie para `.env`. Em seguida, configure as variáveis de ambiente no arquivo `.env` de acordo com o seu ambiente.
 
+### Dependências
+
+Após copiar o arquivo `.env` para raiz do projeto atualize as dependências do PHP com o seguinte comando:
+
+```bash
+composer update
+```
+
+*Caso não possua o `Composer`, você pode baixá-lo em [getcomposer.org](https://getcomposer.org/).*
 ### Chave de criptografia
 
-Após copiar o arquivo `.env` para raiz do projeto, gere uma nova chave de criptografia executando o seguinte comando:
+Agora gere uma nova chave de criptografia:
 
 ```bash
 php artisan key:generate
 ```
 
----
-
 ### Banco de dados
 
-O Laravel permite se conectar com diversos bancos de dados onde é possível estruturar as tabelas a partir das `migrations`.
+A próxima etapa será a configuração do banco de dados. O projeto foi desenvolvido em SQLite, mas você também pode optar por outro banco relacional que seja compatível com o Laravel.
 
 ```bash
 DB_CONNECTION=sqlite
@@ -37,33 +44,20 @@ DB_DATABASE=**CAMINHO_COMPLETO_DO_ARQUIVO_SQLITE***
 DB_FOREIGN_KEYS=true
 ```
 
-<sub>O projeto foi desenvolvido em SQLite, mas você também pode optar por outro banco relacional que seja compatível com o Laravel.</sub>
-
----
-
-Após definir as configurações do banco de dados, execute o comando para migrar as tabelas:
+Execute o comando para migrar as tabelas:
 
 ```bash
 php artisan migrate
 ```
+### Frontend
 
-### Dependências
-
-A próxima etapa será instalar as dependências do projeto. Primeiramente iremos atualizar as dependências do PHP com o seguinte comando: 
-
-```bash
-composer update
-```
-
-Caso não possua o `Composer`, você pode baixá-lo em [getcomposer.org](https://getcomposer.org/).
-
-Após concluído, podemos prosseguir instalando as dependências do `Javascript` executando o seguinte comando:
+Atualize as dependências do Node:
 
 ```bash
 npm i
 ```
 
-Então com as dependências atualizadas podemos fazer o build do frontend:
+Então com as dependências atualizadas rode o *build* do *frontend*:
 
 ```bash
 npm run build
