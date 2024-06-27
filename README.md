@@ -87,3 +87,7 @@ php artisan reverb:start --port=9000
 ```bash
 php artisan queue:work
 ```
+
+## Swagger
+
+Para acessar a documentação da API, acesse: `/api/documentation`
