@@ -15,33 +15,36 @@ git clone https://github.com/luizgr/coletek-chat-app
 cd coletek-chat-app
 ```
 
+### Arquivo de configuração
+
 Copie o arquivo `.env.example` e renomeie para `.env`. Em seguida, configure as variáveis de ambiente no arquivo `.env` de acordo com o seu ambiente.
+
+### Banco de dados
+
+O projeto foi desenvolvido em SQLite, mas você também pode optar por outro banco relacional que seja compatível com o Laravel. Defina o caminho do arquivo `.sqlite`:
+
+```bash
+DB_CONNECTION=sqlite
+DB_DATABASE=**CAMINHO_COMPLETO_DO_ARQUIVO_SQLITE***
+DB_FOREIGN_KEYS=true
+```
 
 ### Dependências
 
-Após copiar o arquivo `.env` para raiz do projeto atualize as dependências do PHP com o seguinte comando:
+Após configurado o arquivo `.env` atualize as dependências do PHP:
 
 ```bash
 composer update
 ```
 
 *Caso não possua o `Composer`, você pode baixá-lo em [getcomposer.org](https://getcomposer.org/).*
-### Chave de criptografia
 
-Agora gere uma nova chave de criptografia:
+### Backend
+
+Gere uma nova chave de criptografia:
 
 ```bash
 php artisan key:generate
-```
-
-### Banco de dados
-
-A próxima etapa será a configuração do banco de dados. O projeto foi desenvolvido em SQLite, mas você também pode optar por outro banco relacional que seja compatível com o Laravel.
-
-```bash
-DB_CONNECTION=sqlite
-DB_DATABASE=**CAMINHO_COMPLETO_DO_ARQUIVO_SQLITE***
-DB_FOREIGN_KEYS=true
 ```
 
 Execute o comando para migrar as tabelas:
