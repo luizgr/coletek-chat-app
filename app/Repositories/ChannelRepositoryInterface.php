@@ -12,7 +12,7 @@ interface ChannelRepositoryInterface
      * @param int $id
      * @return Channel|null
      */
-    public function getById(int $id): ?Channel;
+    public function getByIdWithLatestMessages(int $id): ?Channel;
 
     /**
      * Create a new channel

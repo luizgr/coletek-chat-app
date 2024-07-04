@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateChannelRequest;
+use App\Http\Resources\ChannelResource;
 use App\Services\ChannelService;
 use Illuminate\Http\Response;
 
@@ -24,6 +25,49 @@ class ChannelController extends Controller
     public function __construct(ChannelService $channelService)
     {
         $this->channelService = $channelService;
+    }
+
+    /**
+     *  Show a channel
+     *
+     *  @param int $guildId
+     *  @param int $channelId
+     *  @return \Illuminate\Http\JsonResponse
+     * 
+     *  @OA\Get(
+     *      path="/api/guilds/{guildId}/channels/{channelId}",
+     *      summary="",
+     *      description="Show a channel",
+     *      tags={"Channel"},
+     *      security={{"sanctum": {}}},
+     *      @OA\Parameter(
+     *          name="guildId",
+     *          in="path",
+     *          description="Guild id",
+     *          required=true,
+     *      ),
+     *      @OA\Parameter(
+     *          name="channelId",
+     *          in="path",
+     *          description="Channel id",
+     *          required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="OK",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      )
+     *  )
+     */
+    public function show(int $guildId, int $channelId)
+    {
+        return response()->json(
+            new ChannelResource(
+                $this->channelService->getByIdWithLatestMessages($channelId)
+            )
+        );
     }
 
     /**

@@ -37,6 +37,17 @@ class ChannelService
     }
 
     /**
+     * Get channel by id with latest messages
+     *
+     * @param int $id
+     * @return Channel|null
+     */
+    public function getByIdWithLatestMessages(int $id): ?Channel
+    {
+        return $this->channelRepository->getByIdWithLatestMessages($id);
+    }
+
+    /**
      * Create a new channel
      *
      * @param array $data

@@ -12,9 +12,9 @@ class ChannelRepository implements ChannelRepositoryInterface
      * @param int $id
      * @return Channel|null
      */
-    public function getById(int $id): ?Channel
+    public function getByIdWithLatestMessages(int $id): ?Channel
     {
-        return Channel::find($id);
+        return Channel::with('latestMessages')->find($id);
     }
 
     /**

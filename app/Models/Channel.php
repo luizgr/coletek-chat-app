@@ -37,4 +37,12 @@ class Channel extends Model
     {
         return $this->belongsTo(Guild::class);
     }
+
+    /**
+     * Get the messages for the channel.
+     */
+    public function latestMessages()
+    {
+        return $this->hasMany(Message::class)->latest();
+    }
 }

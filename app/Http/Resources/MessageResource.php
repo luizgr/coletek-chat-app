@@ -19,7 +19,7 @@ class MessageResource extends JsonResource
             'content'       => $this->content,
             'created_at'    => $this->created_at->format('H:i'),
             'user_id'       => $this->user ? $this->user->id : null,
-            'user'          => $this->user ? $this->user->name : null,
+            'user'          => $this->user ? $this->user->nickname : null,
         ];
     }
 }

@@ -5,6 +5,43 @@
         "version": "0.1"
     },
     "paths": {
+        "/api/guilds/{guildId}/channels/{channelId}": {
+            "get": {
+                "tags": [
+                    "Channel"
+                ],
+                "summary": "",
+                "description": "Show a channel",
+                "operationId": "25c1ba764fe5c07e7ba5d798138c846d",
+                "parameters": [
+                    {
+                        "name": "guildId",
+                        "in": "path",
+                        "description": "Guild id",
+                        "required": true
+                    },
+                    {
+                        "name": "channelId",
+                        "in": "path",
+                        "description": "Channel id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/guilds/{guildId}/channels": {
             "post": {
                 "tags": [
@@ -254,6 +291,12 @@
                         "name": "channelId",
                         "in": "path",
                         "description": "Channel id",
+                        "required": true
+                    },
+                    {
+                        "name": "messageId",
+                        "in": "path",
+                        "description": "Message id",
                         "required": true
                     }
                 ],

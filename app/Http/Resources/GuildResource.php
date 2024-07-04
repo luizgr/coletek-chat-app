@@ -18,6 +18,7 @@ class GuildResource extends JsonResource
             'id'            => $this->id,
             'name'          => $this->name,
             'description'   => $this->description,
+            'owner_id'      => $this->user->id,
             'owner'         => $this->user->name,
             'createdAt'     => $this->created_at->format('Y-m-d H:i:s'),
             'channels'      => ChannelResource::collection($this->whenLoaded('channels')),

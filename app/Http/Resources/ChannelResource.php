@@ -15,10 +15,11 @@ class ChannelResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'            => $this->id,
-            'name'          => $this->name,
-            'description'   => $this->description,
-            'guild'         => $this->guild->name,
+            'id'                => $this->id,
+            'name'              => $this->name,
+            'description'       => $this->description,
+            'guild'             => $this->guild->name,
+            'latest_messages'   => MessageResource::collection($this->whenLoaded('latestMessages')),
         ];
     }
 }
