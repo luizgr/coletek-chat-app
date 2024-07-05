@@ -41,4 +41,46 @@ class AuthenticationTest extends TestCase
 
         $this->assertGuest();
     }
+
+    public function test_token_can_be_retrieved(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post('/api/auth/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertNotNull($response['access_token']);
+    }
+
+    public function test_token_can_not_be_retrieved_with_invalid_password(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post('/api/auth/login', [
+            'email' => $user->email,
+            'password' => 'wrong-password',
+        ]);
+
+        $response->assertStatus(422);
+    }
+
+    public function test_user_can_logout(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post('/api/auth/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $token = $response['access_token'];
+
+        $response = $this->post('/api/auth/logout', [], [
+            'Authorization' => "Bearer $token",
+        ]);
+
+        $response->assertStatus(200);
+    }
 }

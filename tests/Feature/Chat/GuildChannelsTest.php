@@ -31,4 +31,21 @@ class GuildChannelsTest extends TestCase
 
         $request->assertJsonCount(3, 'channels');
     }
+
+    public function test_channels_with_invalid_guild_id_cannot_be_listed(): void
+    {
+        $user = User::factory()->create();
+
+        Guild::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $id = rand(1, 100);
+
+        $this->actingAs($user);
+
+        $request = $this->get('/api/guilds/' . $id);
+
+        $request->assertStatus(404);
+    }
 }
