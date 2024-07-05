@@ -23,7 +23,7 @@ Copie o arquivo `.env.example` e renomeie para `.env`. Em seguida, configure as 
 
 O projeto foi desenvolvido em SQLite, mas você também pode optar por outro banco relacional que seja compatível com o Laravel. Defina o caminho do arquivo `.sqlite`:
 
-```bash
+```ini
 DB_CONNECTION=sqlite
 DB_DATABASE=**CAMINHO_COMPLETO_DO_ARQUIVO_SQLITE***
 DB_FOREIGN_KEYS=true
@@ -36,8 +36,6 @@ Após configurado o arquivo `.env` atualize as dependências do PHP:
 ```bash
 composer update
 ```
-
-*Caso não possua o `Composer`, você pode baixá-lo em [getcomposer.org](https://getcomposer.org/).*
 
 ### Backend
 
@@ -87,6 +85,22 @@ php artisan reverb:start --port=9000
 ```bash
 php artisan queue:work
 ```
+
+### Testes
+
+Os testes foram feitos no PHPUnit. Para rodar os testes você pode utilizar o seguinte commando:
+
+```bash
+php artisan test
+```
+
+Caso tenha o Xdebug instalado você pode utilizar o comando para analisar a cobertura de teste:
+
+```bash
+php artisan test --coverage
+```
+
+*Caso não possua o `Xdebug`, você pode baixá-lo em [xdebug.org](https://xdebug.org/docs/install).*
 
 ## Swagger
 
